@@ -4,6 +4,10 @@ public class DoublyLinkedList<T> {
     private int size;
 
 
+    public Node<T> getBase(){
+    	return this.base;
+    }
+    
     public DoublyLinkedList() {
         this.top = null;
         this.base = null;
@@ -68,10 +72,9 @@ public class DoublyLinkedList<T> {
     }
     
 
-    public int size() {
+    public int getSize() {
         return this.size;
     }
-
 
     public boolean isEmpty() {
         return size == 0;

@@ -29,10 +29,9 @@ public class ImageMatrix {
         	DoublyLinkedList newList = new DoublyLinkedList<Pixel>();
         	pixelMatrix.add(newList);
             for (int x = 0; x < width; x++) {
-                // Obtém a cor do pixel (x, y)
+                
                 Color pixelColor = new Color(Image.getRGB(x, y));
 
-                // Cria um novo Pixel com suas coordenadas e cor
                 Pixel pixel = new Pixel(x, y, pixelColor);
 
                 newList.add(pixel);
@@ -41,9 +40,9 @@ public class ImageMatrix {
 	}
 	
 	public Pixel findPixel(int x, int y) throws Exception {
-//		if(x >= Length || y >= Height || x < 0 || y < 0) {
-//			return null;
-//		}
+		if (x < 0 || x >= Length || y < 0 || y >= Height) {
+	        throw new Exception("Position out of bounds: (" + x + ", " + y + ")");
+	    }
 		
 		DoublyLinkedList<Pixel> Yrow = (DoublyLinkedList<Pixel>) pixelMatrix.get(y);
 		
@@ -52,21 +51,21 @@ public class ImageMatrix {
     }
 	
 	public void printMatrix() throws Exception {
-	    for (int i = 0; i < pixelMatrix.size(); i++) {
+	    for (int i = 0; i < pixelMatrix.getSize(); i++) {
 	        
 	        DoublyLinkedList<Pixel> row = (DoublyLinkedList<Pixel>) pixelMatrix.get(i);
 	        
-	        for (int j = 0; j < row.size(); j++) {
+	        for (int j = 0; j < row.getSize(); j++) {
 	            Pixel pixel = row.get(j);
 	            
-	            if(pixel.color.getRed() == 255 && pixel.color.getGreen() == 255 && pixel.color.getBlue() == 255) {
+	            if(pixel.getColor().getRed() == 255 && pixel.getColor().getGreen() == 255 && pixel.getColor().getBlue() == 255) {
 	            	System.out.print(1 + " ");
 	            }
-	            else if(pixel.color.getRed() == 255 && pixel.color.getGreen() == 0 && pixel.color.getBlue() == 255) {
-	            	System.out.print(2 + " ");
+	            else if(pixel.getColor().getRed() == 0 && pixel.getColor().getGreen() == 0 && pixel.getColor().getBlue() == 0) {
+	            	System.out.print(0 + " ");
 	            }
 	            else {
-	            	System.out.print(0 + " ");
+	            	System.out.print(2 + " ");
 	            }
 	        }
 	        
@@ -76,20 +75,16 @@ public class ImageMatrix {
 	}
 	
 	public BufferedImage generateImage() throws Exception {
-	    // Create a new BufferedImage with the same dimensions as the matrix
 	    BufferedImage newImage = new BufferedImage(Length, Height, BufferedImage.TYPE_INT_RGB);
 	    
-	    // Loop through each pixel in the matrix and set the corresponding pixel in the image
 	    for (int y = 0; y < Height; y++) {
 	        DoublyLinkedList<Pixel> row = (DoublyLinkedList<Pixel>) pixelMatrix.get(y);
 	        
 	        for (int x = 0; x < Length; x++) {
 	            Pixel pixel = row.get(x);
 	            
-	            // Get the color of the current pixel
-	            Color color = pixel.color;
+	            Color color = pixel.getColor();
 	            
-	            // Set the RGB value of the pixel in the BufferedImage
 	            newImage.setRGB(x, y, color.getRGB());
 	        }
 	    }
@@ -102,4 +97,15 @@ public class ImageMatrix {
 	    File outputFile = new File(filePath);
 	    ImageIO.write(image, "png", outputFile);
 	}
+	
+	public BufferedImage revertToImage() throws Exception {
+        BufferedImage img = new BufferedImage(this.Length, this.Height, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < this.Length; x++) {
+            for (int y = 0; y < this.Height; y++) {
+                Pixel pixel = findPixel(x, y);
+                img.setRGB(x, y, pixel.getColor().getRGB());
+            }
+        }
+        return img;
+    }
 }
