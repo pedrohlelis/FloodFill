@@ -12,7 +12,6 @@ import Stack.*;
 public class FloodFill {
 	private BufferedImage img;
     private ImageMatrix imageMatrix;
-    private int iterationCount = 0;
     private DoublyLinkedList<BufferedImage> images = new DoublyLinkedList<>();
     private DynamicStack<Pixel> stack;
     private DynamicQueue<Pixel> queue;
@@ -134,11 +133,11 @@ public class FloodFill {
 	                poppedPixel.setColor(newColor);
 	                
 	                pushIfValid(px + 1, py, oldColor);
-	                pushIfValid(px - 1, py, oldColor);
 	                pushIfValid(px, py + 1, oldColor);
+	                pushIfValid(px - 1, py, oldColor);
 	                pushIfValid(px, py - 1, oldColor);
 	                
-	                if(iteration % 2 == 0) {
+	                if(iteration % 20 == 0) {
                     	view.updateImageDisplay();
                     }
                     

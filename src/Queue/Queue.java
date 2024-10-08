@@ -27,35 +27,3 @@ public abstract class Queue<T> implements IQueue<T> {
     }
 }
 
-//public class Queue<T> {
-//	private DoublyLinkedList<T> queue;
-//	
-//	public Queue() {
-//
-//        queue = new DoublyLinkedList<>();
-//    }
-//
-//    public void enqueue(T value) {
-//    	if(value == null) {
-//    		return;
-//    	}
-//        queue.add(value);
-//    }
-//
-//    public T dequeue() throws Exception {
-//        if (isEmpty()) {
-//            throw new Exception("Queue is empty");
-//        }
-//        return queue.pop();
-//    }
-//
-//    public boolean isEmpty() {
-//        return queue.size() == 0;
-//    }
-//    
-//    public void printQueue() {
-//        queue.printList();
-//    }
-//    
-
-//}
